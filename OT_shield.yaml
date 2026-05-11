@@ -1,0 +1,104 @@
+esphome:
+  name: futes-ot
+  friendly_name: Futes_OT
+
+esp8266:
+  board: d1_mini
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+
+ota:
+  - platform: esphome
+    password: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+#logger:
+#  level: DEBUG # Érdemes debugon hagyni az elején, hogy lásd a kommunikációt
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  min_auth_mode: WPA2
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "XXXXXXXX"
+    password: "XXXXXXX"
+
+captive_portal:
+
+
+# --- OPENTHERM ALAPBEÁLLÍTÁS ---
+opentherm:
+  in_pin: D2  # Wemos D2
+  out_pin: D1 # Wemos D1
+
+# --- SZENZOROK (Adatgyűjtés a kazánból) ---
+sensor:
+  - platform: opentherm
+    t_boiler:
+      name: "Kazán Előremenő Hőmérséklet"
+    t_ret:
+      name: "Visszatérő Hőmérséklet"
+    
+    # rel_mod_lvl helyett rel_mod_level-t kér:
+    rel_mod_level: 
+      name: "Kazán Aktuális Moduláció"
+      unit_of_measurement: "%"
+    
+    # pressure helyett ch_pressure-t kér:
+    ch_pressure: 
+      name: "Rendszernyomás"
+      unit_of_measurement: "bar"
+      
+    t_outside:
+      name: "Kazán által érzékelt külső hőm"
+
+
+# --- VEZÉRLÉS (Ezeket fogja a PID állítani a HA-ból) ---
+number:
+  - platform: opentherm
+    # setpoint_temperature helyett t_set
+    t_set:
+      name: "Fűtési víz alapjel (CH Setpoint)"
+      initial_value: 40
+      min_value: 20
+      max_value: 75
+      step: 0.5
+    
+    # hot_water_setpoint_temperature helyett t_dhw_set
+    t_dhw_set:
+      name: "Melegvíz alapjel (DHW Setpoint)"
+      initial_value: 45
+      min_value: 35
+      max_value: 65
+      step: 1
+
+# --- ÁLLAPOTJELZŐK (Diagnosztika) ---
+binary_sensor:
+  - platform: opentherm
+    flame_on:
+      name: "Gázláng"
+    # central_heating_active helyett ch_active
+    ch_active:
+      name: "Fűtés aktív"
+    # hot_water_active helyett dhw_active
+    dhw_active:
+      name: "Melegvíz készítés aktív"
+    # fault helyett flame_fault vagy fault_indication (a logod flame_fault-ot sugall)
+    flame_fault:
+      name: "Kazán Hiba"
+    diagnostic_indication:
+      name: "Szerviz jelzés"
+
+# --- KAPCSOLÓK ---
+switch:
+  - platform: opentherm
+    ch_enable:
+      name: "Fűtés Engedélyezése"
+    dhw_enable:
+      name: "Melegvíz Engedélyezése"
