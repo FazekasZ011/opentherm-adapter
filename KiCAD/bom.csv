@@ -1,0 +1,13 @@
+﻿Designator,Footprint,Quantity,Value,LCSC Part #
+"D1, D2, D3, D4",1206,4,1N4148W,
+D5,D_MiniMELF,1,BZV55B4V7,
+D6,D_MiniMELF,1,BZV55B15,
+D7,D_MiniMELF,1,BZV55B4V3,
+J1,"TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal",1,Screw_Terminal_01x02,
+"P1, P2",PinSocket_1x08_P2.54mm_Vertical,2,Conn_01x08_Pin,
+Q1,SOT-23,1,BC858,
+"R1, R4",0603,2,330,
+R2,0603,1,220,
+R3,0603,1,100,
+R5,0603,1,"1,5k",
+"U1, U2",DIP-4_W7.62mm_SMDSocket_SmallPads,2,PC817,
