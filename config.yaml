@@ -1,0 +1,32 @@
+  - platform: smart_thermostat
+    name: "Fűtés_PID"
+    unique_id: nappali_futes
+    heater: switch.futes_ot_futes_engedelyezese
+    target_sensor: sensor.XY
+    outdoor_sensor: sensor.XY
+    ac_mode: false
+    # Szabályozási idők
+    pwm: 0
+    keep_alive: 00:01:00
+    # PID beállítások (ezeket finomhangolnod kell!)
+    kp: 10.0
+    ki: 0.005
+    kd: 250.0
+    ke: 0.6
+    # Modulációs üzemmódban ezeket minimalizáljuk, hogy a PID finoman állíthassa a számot
+    min_cycle_duration: 00:00:00
+    min_off_cycle_duration: 00:00:00
+    # Kényelmi funkciók (Presets)
+    precision: 0.1
+    target_temp_step: 0.1
+    min_temp: 17
+    max_temp: 25
+    away_temp: 18.0
+    eco_temp: 21.0
+    home_temp: 22.5
+    comfort_temp: 23.5
+    boost_temp: 24.5
+    # Biztonság
+    sensor_stall: 03:00:00
+    output_safety: 10.0
+    force_off_state: false
